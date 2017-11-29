@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/StartScan.unity
+  isLoaded: 1
+  isActive: 1
