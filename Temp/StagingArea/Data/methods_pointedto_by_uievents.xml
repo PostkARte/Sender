@@ -1,7 +1,0 @@
-<linker>
-	<assembly fullname="Assembly-CSharp">
-		<type fullname="ScanPostcard">
-			<method name="GetButton"/>
-		</type>
-	</assembly>
-</linker>

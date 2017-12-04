@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{43AAD4D9-76CB-0781-81FE-771FE1C20F61}</ProjectGuid>
+    <ProjectGuid>{69FB6FBB-3E86-1EC1-A6DF-810934F9CB5F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -51,9 +51,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\MyCamera.cs" />
      <Compile Include="Assets\ScanPostcard.cs" />
-     <Compile Include="Assets\WebCamPhotoCamera.cs" />
+     <Compile Include="Assets\Unimgpicker\Samples\PickerController.cs" />
+     <Compile Include="Assets\Unimgpicker\Samples\Rotator.cs" />
+     <Compile Include="Assets\Unimgpicker\Scripts\IPicker.cs" />
+     <Compile Include="Assets\Unimgpicker\Scripts\Picker_editor.cs" />
+     <Compile Include="Assets\Unimgpicker\Scripts\PickerAndroid.cs" />
+     <Compile Include="Assets\Unimgpicker\Scripts\PickeriOS.cs" />
+     <Compile Include="Assets\Unimgpicker\Scripts\PickerUnsupported.cs" />
+     <Compile Include="Assets\Unimgpicker\Scripts\Unimgpicker.cs" />
+     <None Include="Assets\Unimgpicker\Editor\NSPhotoLibraryUsageDescription.txt" />
+     <None Include="Assets\Plugins\Android\Unimgpicker\AndroidManifest.xml" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>

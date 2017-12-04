@@ -8,13 +8,16 @@ using System.Collections.Generic;
 
 public class ScanPostcard : MonoBehaviour 
 {
+	public GameObject canvas;
+	public GameObject rawImagePostcard;
 	public GameObject rawImageObject;
 	public Button maincanvas;
 	private CanvasGroup maincanvasgroup;
 	private RectTransform cameraSize;//拍攝和顯示的影像大小
 	private RawImage showImage;//顯示圖片
 	private WebCamTexture myCam;//接收攝影機讀取到的圖片數據
-	private string filepath = @"/Users/hsiehyuanzhang/Documents/picture.jpg";//儲存照片的路徑
+	//private string filepath = @"/Users/hsiehyuanzhang/Documents/picture.jpg";//儲存照片的路徑
+	private RawImage showPostcardImage;//顯示圖片
 
 	private void Start ()
 	{
@@ -22,7 +25,9 @@ public class ScanPostcard : MonoBehaviour
 		cameraSize = rawImageObject.GetComponent<RectTransform>();
 		showImage = rawImageObject.GetComponent<RawImage>();
 		maincanvasgroup = maincanvas.GetComponent<CanvasGroup>();
+		showPostcardImage = rawImagePostcard.GetComponent<RawImage>();
 		StartCoroutine(OpenCamera());//開啟攝影機鏡頭
+		//Debug.Log(canvas.GetComponentsInChildren<Canvas>()[1].GetComponent<Canvas>().sortingOrder);
 	}
 
 	private void OnGUI ()
@@ -31,7 +36,7 @@ public class ScanPostcard : MonoBehaviour
 		if (myCam != null)
 		{
 			/* (new Rect(影像起始x軸，影像起始y軸，要顯示出來的寬度，要顯示出來的高度), 顯示的影像或圖片) */
-//			GUI.DrawTexture(new Rect(0, 0, (int)cameraSize.rect.width/2, (int)cameraSize.rect.height/2), myCam);
+			//			GUI.DrawTexture(new Rect(0, 0, (int)cameraSize.rect.width/2, (int)cameraSize.rect.height/2), myCam);
 			showImage.texture = myCam;
 
 		}
@@ -69,15 +74,37 @@ public class ScanPostcard : MonoBehaviour
 			BinaryWriter bw = new BinaryWriter(fs);
 			bw.Write(t.EncodeToJPG());
 		}*/
-		yield return StartCoroutine(Upload(t));
+		t.Apply ();
+
+		//Debug.Log(canvas.GetComponentsInChildren<Canvas>()[1].GetComponent<Canvas>().sortingOrder);
+		canvas.GetComponentsInChildren<Canvas> () [1].GetComponent<Canvas> ().sortingOrder = 0;
+		//Debug.Log(canvas.GetComponentsInChildren<Canvas>()[2]);
+		canvas.GetComponentsInChildren<Canvas> () [2].GetComponent<Canvas> ().sortingOrder = 1;
+
+		showPostcardImage.texture = t as Texture;
+		//yield return StartCoroutine(Upload(t));
 		Debug.Log("拍照完成！");
 	}
+
 	IEnumerator Upload(Texture2D t) {
 		WWWForm wwwF = new WWWForm ();
-		wwwF.AddBinaryData ("image", t.EncodeToJPG());
+		wwwF.AddBinaryData ("postcard", t.EncodeToJPG());
 		WWW www = new WWW ("http://35.196.236.27:3000/postcard/", wwwF);
 		yield return www;
 		Debug.Log (www.text);
+	}
+	public void Send()
+	{
+		Texture2D t = showPostcardImage.texture as Texture2D;
+		StartCoroutine(Upload(t));
+		canvas.GetComponentsInChildren<Canvas> () [2].GetComponent<Canvas> ().sortingOrder = 0;
+		canvas.GetComponentsInChildren<Canvas> () [3].GetComponent<Canvas> ().sortingOrder = 1;
+		myCam.Stop();
+	}
+	public void Back()
+	{
+		canvas.GetComponentsInChildren<Canvas> () [1].GetComponent<Canvas> ().sortingOrder = 1;
+		canvas.GetComponentsInChildren<Canvas> () [2].GetComponent<Canvas> ().sortingOrder = 0;
 	}
 
 	private void OnDisable()
